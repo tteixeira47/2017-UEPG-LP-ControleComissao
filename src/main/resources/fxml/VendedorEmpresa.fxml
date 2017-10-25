@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="660.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.VendedorEmpresaController">
+    <stylesheets>
+        <URL value="@/styles/Styles.css" />
+    </stylesheets>
+    <children>
+        <VBox layoutX="60.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                    <children>
+                        <ComboBox fx:id="cmbVendedor" prefHeight="25.0" prefWidth="150.0" />
+                        <MaterialDesignIconView fx:id="btnTotalizar" glyphName="FILE_DOCUMENT_BOX" onMouseClicked="#acTotalizarVendedor" size="2.3em" style="-fx-cursor: HAND;" />
+                        <MaterialDesignIconView fx:id="btnDeletar" glyphName="DATABASE_MINUS" onMouseClicked="#acDeletaAll" size="2.3em" style="-fx-cursor: HAND;" />
+                        <MaterialDesignIconView fx:id="btnGerar" glyphName="DATABASE_PLUS" onMouseClicked="#acGeraRandom" size="2.3em" style="-fx-cursor: HAND;" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                    </VBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox>
+                <TableView fx:id="tblView" prefHeight="400.0" prefWidth="250.0">
+                    <columns>
+                        <TableColumn fx:id="colEmpresa" maxWidth="1.7976931348623157E308" prefWidth="250" text="Empresa">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="empresaFantasia" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colNumNotas" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" style="-fx-alignment: CENTER-RIGHT;" text="Notas">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="numNotas" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colValor" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" style="-fx-alignment: CENTER-RIGHT;" text="Total Val NF">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="formatValorTotal" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colValorComissao" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER-RIGHT;" text="Total Comissão">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="formatValorComissao" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colPercComissao" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER-RIGHT;" text="Perc Comissão">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="formatPercComissao" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                    </VBox.margin>
+                </TableView>
+
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>

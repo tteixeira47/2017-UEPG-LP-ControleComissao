@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="achorPrincipal" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PrincipalController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="174.0" layoutY="46.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lbTitulo" text="Controle de Comissão de Vendedores" textFill="#e11212">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <TabPane prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Vendedores/Empresas">
+                  <content>
+                    <fx:include source="VendedorEmpresa.fxml"/>
+                  </content>
+                </Tab>
+                <Tab text="Empresas">
+                  <content>
+                    <!--fx:include source="Empresa.fxml" /-->
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
