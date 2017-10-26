@@ -6,6 +6,7 @@
 package model;
 
 import static config.Config.df;
+import static config.Config.nfc;
 import java.time.LocalDate;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
@@ -18,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document
 public class DocFiscal {
-    
+
     @Id
     private String id;
     @DBRef
@@ -33,8 +34,7 @@ public class DocFiscal {
     public DocFiscal() {
     }
 
-    public DocFiscal(Empresa empresa, Vendedor vendedor,
-            String nota, LocalDate emissao, double valorNota,
+    public DocFiscal(Empresa empresa, Vendedor vendedor, String nota, LocalDate emissao, double valorNota,
             double valorCredito) {
         setEmpresa(empresa);
         setVendedor(vendedor);
@@ -79,9 +79,9 @@ public class DocFiscal {
     public LocalDate getEmissao() {
         return emissao;
     }
-    
+
     public String getFormatEmissao() {
-        if (emissao != null){
+        if (emissao != null) {
             return (df.format(emissao));
         } else {
             return "";
@@ -99,6 +99,10 @@ public class DocFiscal {
     public void setValorNota(double valorNota) {
         this.valorNota = valorNota;
     }
+    
+    public String getFormatValorNota() {
+        return nfc.format(valorNota);
+    }
 
     public double getValorCredito() {
         return valorCredito;
@@ -106,6 +110,10 @@ public class DocFiscal {
 
     public void setValorCredito(double valorCredito) {
         this.valorCredito = valorCredito;
+    }
+    
+    public String getFormatValorCredito() {
+        return nfc.format(valorCredito);
     }
 
     @Override
@@ -135,6 +143,6 @@ public class DocFiscal {
 
     @Override
     public String toString() {
-        return empresa + "->" +nota;
+        return empresa + "->" + nota;
     }
 }

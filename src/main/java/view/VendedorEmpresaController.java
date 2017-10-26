@@ -6,6 +6,7 @@
 package view;
 
 import static config.Config.df;
+import static config.Config.i18n;
 import static config.DAO.cidadeRepository;
 import static config.DAO.docFiscalRepository;
 import static config.DAO.empresaRepository;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,13 +29,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import model.Cidade;
 import model.DocFiscal;
 import model.Empresa;
 import model.Vendedor;
 import model.VendedorEmpresa;
 import org.springframework.data.domain.Sort;
+import utilit.NossoPopOver;
 
 /**
  * FXML Controller class
@@ -64,6 +69,16 @@ public class VendedorEmpresaController implements Initializable {
 
     @FXML
     private MaterialDesignIconView btnDeletar;
+    
+    @FXML
+    private MaterialDesignIconView btnDocFiscVE;
+    
+    
+    @FXML
+    private Label lblTotalNotas;
+
+    @FXML
+    private HBox hbLabelTotalNotas;
 
 //    Empresa empTotal = new Empresa("", "Total");
     //  MesEmpresa mesEmpresaTotal = new MesEmpresa();
@@ -91,12 +106,12 @@ public class VendedorEmpresaController implements Initializable {
     @FXML
     public void acDeletaAll() {
         Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Deletar Banco");
-        alert.setHeaderText("Deletar Banco");
-        alert.setContentText("Tem certeza que deseja deletar o banco?");
+        alert.setTitle(i18n.getString("alertLimpaBancoTitle.text")); 
+        alert.setHeaderText(i18n.getString("alertLimpaBancoHeader.text"));
+        alert.setContentText(i18n.getString("alertLimpaBancoContent.text"));
 
         ButtonType buttonTypeCancel = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
-        ButtonType buttonTypeOk = new ButtonType("Sim");
+        ButtonType buttonTypeOk = new ButtonType(i18n.getString("btnLimpaBanco.text"));
 
         alert.getButtonTypes().setAll(buttonTypeCancel, buttonTypeOk);
 
@@ -163,11 +178,10 @@ public class VendedorEmpresaController implements Initializable {
                     lstVendedor.get(rand.nextInt(lstVendedor.size())),
                     String.valueOf(rand.nextInt(100) + 1),
                     LocalDate.parse("25/10/2017", df),
-                    rand.nextDouble(),
-                    rand.nextDouble());
+                    rand.nextDouble() * 100,
+                    rand.nextDouble() * 10);
             docFiscalRepository.insert(docFisc);
         }
-
         atualizaCombo();
         desabilitaBotoes();
         btnTotalizar.setDisable(false);
@@ -211,6 +225,32 @@ public class VendedorEmpresaController implements Initializable {
     private void atualizaVendedor() {
         vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
         tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findByVendedor(vendSelec)));
+        
+         if (vendedorEmpresaRepository.findByVendedor(vendSelec) == null) {
+            hbLabelTotalNotas.setVisible(false);
+        } else {
+            int qtdeNotas = 0;
+            for (VendedorEmpresa vE : vendedorEmpresaRepository.findByVendedor(vendSelec)) {
+                qtdeNotas += vE.getNumNotas();
+            }
+
+            hbLabelTotalNotas.setVisible(true);
+            lblTotalNotas.setText(String.valueOf(qtdeNotas));
+        }
+    }
+    
+    @FXML
+    private void acShowDocFiscalTable() {
+        String cena = "/fxml/ListaDocFiscVE.fxml";
+        //Cria o PopOver para exibir as matriculas
+        NossoPopOver popOver = null;
+        popOver = new NossoPopOver(cena,
+                tblView.getSelectionModel().getSelectedItem().getEmpresaFantasia(), null);  
+        //É definido o controller filho (PopOver Matricula)
+        ListaDocFiscVEController controller = popOver.getLoader().getController();
+        //O controller filho recebe AlunoController como pai
+        //Assim as ações efetuadas no PopOver terão relação com o Aluno selecionado no TableView
+        controller.setControllerPai(this);
     }
 
     private void atualizaCombo() {
@@ -232,9 +272,16 @@ public class VendedorEmpresaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        btnDocFiscVE.visibleProperty().bind(Bindings.isEmpty((tblView.getSelectionModel().getSelectedItems())).not());
+        hbLabelTotalNotas.setVisible(false);
         desabilitaBotoes();
         atualizaCombo();
         // tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findAll()));
+    }
+
+    class docFiscalRepository {
+
+        public docFiscalRepository() {
+        }
     }
 }
