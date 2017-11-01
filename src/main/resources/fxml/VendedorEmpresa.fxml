@@ -22,6 +22,7 @@
                     <children>
                         <ComboBox fx:id="cmbVendedor" prefHeight="25.0" prefWidth="150.0" />
                         <MaterialDesignIconView fx:id="btnTotalizar" glyphName="FILE_DOCUMENT_BOX" onMouseClicked="#acTotalizarVendedor" size="2.3em" style="-fx-cursor: HAND;" />
+                        <MaterialDesignIconView fx:id="btnLerArquivo" glyphName="FOLDER_ACCOUNT" onMouseClicked="#acLerArquivo" size="2.3em" style="-fx-cursor: HAND;" />
                         <MaterialDesignIconView fx:id="btnDeletar" glyphName="DATABASE_MINUS" onMouseClicked="#acDeletaAll" size="2.3em" style="-fx-cursor: HAND;" />
                         <MaterialDesignIconView fx:id="btnGerar" glyphName="DATABASE_PLUS" onMouseClicked="#acGeraRandom" size="2.3em" style="-fx-cursor: HAND;" />
                         <MaterialDesignIconView fx:id="btnDocFiscVE" glyphName="FILE_FIND" onMouseClicked="#acShowDocFiscalTable" size="2.3em" style="-fx-cursor: HAND;" />

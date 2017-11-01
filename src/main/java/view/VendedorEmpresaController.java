@@ -13,6 +13,7 @@ import static config.DAO.empresaRepository;
 import static config.DAO.vendedorEmpresaRepository;
 import static config.DAO.vendedorRepository;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import model.Cidade;
 import model.DocFiscal;
 import model.Empresa;
@@ -39,6 +41,9 @@ import model.Vendedor;
 import model.VendedorEmpresa;
 import org.springframework.data.domain.Sort;
 import utilit.NossoPopOver;
+import javafx.stage.Stage;
+import utilit.Dados;
+ 
 
 /**
  * FXML Controller class
@@ -51,7 +56,7 @@ public class VendedorEmpresaController implements Initializable {
      * Initializes the controller class.
      */
     public Empresa empresa;
-    public Vendedor vendSelec;
+    public Vendedor vendSelec, vendObj;
 
     List<DocFiscal> lstDoc = docFiscalRepository.findByVendedor(vendSelec);
 
@@ -72,6 +77,10 @@ public class VendedorEmpresaController implements Initializable {
     
     @FXML
     private MaterialDesignIconView btnDocFiscVE;
+    
+    @FXML
+    private MaterialDesignIconView btnLerArquivo;
+    
     
     
     @FXML
@@ -186,15 +195,18 @@ public class VendedorEmpresaController implements Initializable {
         desabilitaBotoes();
         btnTotalizar.setDisable(false);
     }
+    
 
     private void desabilitaBotoes() {
         if (cidadeRepository.findAll().isEmpty()
                 && empresaRepository.findAll().isEmpty()
                 && vendedorRepository.findAll().isEmpty()) {
             btnDeletar.setDisable(true);
+            btnLerArquivo.setDisable(false);
             btnGerar.setDisable(false);
         } else {
             btnDeletar.setDisable(false);
+            btnLerArquivo.setDisable(true);
             btnGerar.setDisable(true);
         }
     }
@@ -221,6 +233,32 @@ public class VendedorEmpresaController implements Initializable {
         atualizaVendedor();
 
     }
+    
+    private Dados dados;
+    
+    @FXML
+    public void acLerArquivo() {
+        final Stage stage = null;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Escolha o seu arquivo txt");
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO"));
+        fileChooser.setInitialFileName("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO\\Maria do Rosário.txt");
+        String s = String.valueOf(fileChooser.showOpenDialog(stage));
+        dados = new Dados(s);
+        String nome = s.substring(s.lastIndexOf("\\") + 1,s.length());   
+        String nomeVendedor[];
+        nomeVendedor = nome.split(".txt");
+        vendObj = new Vendedor(nomeVendedor[0]);
+        if (vendedorRepository.findByNome(nomeVendedor[0]) == null){
+            dados.lerTxt(vendedorRepository.insert(vendObj));
+        }
+        desabilitaBotoes();
+        atualizaCombo();
+    }
+    /*
+    private String nomeVendedorArquivo(String linha){
+        return 
+    }*/
 
     private void atualizaVendedor() {
         vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
@@ -277,11 +315,5 @@ public class VendedorEmpresaController implements Initializable {
         desabilitaBotoes();
         atualizaCombo();
         // tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findAll()));
-    }
-
-    class docFiscalRepository {
-
-        public docFiscalRepository() {
-        }
     }
 }

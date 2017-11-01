@@ -7,6 +7,7 @@ package model;
 
 import static config.Config.df;
 import static config.Config.nfc;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
@@ -143,6 +144,6 @@ public class DocFiscal {
 
     @Override
     public String toString() {
-        return empresa + "->" + nota;
+        return empresa + "->" + nota + vendedor;
     }
 }
