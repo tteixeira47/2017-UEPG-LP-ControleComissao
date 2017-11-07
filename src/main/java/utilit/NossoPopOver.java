@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utilit;
 
 import static config.Config.i18n;
@@ -17,10 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.controlsfx.control.PopOver;
 
-/**
- *
- * @author Thiago
- */
 //Classe que define as configurações de PopOver (janela que aparece por cima do programa)
 public class NossoPopOver {
 
@@ -79,5 +70,4 @@ public class NossoPopOver {
     public FXMLLoader getLoader() {
         return loader;
     }
-
 }

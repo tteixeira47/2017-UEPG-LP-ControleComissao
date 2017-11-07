@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.Objects;
@@ -11,13 +6,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- *
- * @author mathe
- */
 @Document
 public class Empresa {
-    
+
     @Id
     private String id;
     @Indexed(unique = true)
@@ -34,7 +25,6 @@ public class Empresa {
         setCnpj(cnpj);
         setNome(nome);
         setFantasia(nome);
-        
     }
 
     public Empresa(String cnpj, String nome, Cidade cidade) {
@@ -42,7 +32,6 @@ public class Empresa {
         setNome(nome);
         setFantasia(nome);
         setCidade(cidade);
-        
     }
 
     public Empresa(String cnpj, String nome, String fantasia, Cidade cidade) {
@@ -120,5 +109,5 @@ public class Empresa {
     @Override
     public String toString() {
         return fantasia;
-    } 
+    }
 }

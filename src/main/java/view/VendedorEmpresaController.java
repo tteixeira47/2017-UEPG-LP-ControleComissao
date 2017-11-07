@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import static config.Config.df;
@@ -43,20 +38,12 @@ import org.springframework.data.domain.Sort;
 import utilit.NossoPopOver;
 import javafx.stage.Stage;
 import utilit.Dados;
- 
 
-/**
- * FXML Controller class
- *
- * @author idomar
- */
 public class VendedorEmpresaController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     public Empresa empresa;
     public Vendedor vendSelec, vendObj;
+    private Dados dados;
 
     List<DocFiscal> lstDoc = docFiscalRepository.findByVendedor(vendSelec);
 
@@ -74,48 +61,100 @@ public class VendedorEmpresaController implements Initializable {
 
     @FXML
     private MaterialDesignIconView btnDeletar;
-    
+
     @FXML
     private MaterialDesignIconView btnDocFiscVE;
-    
+
     @FXML
     private MaterialDesignIconView btnLerArquivo;
-    
-    
-    
+
     @FXML
     private Label lblTotalNotas;
 
     @FXML
     private HBox hbLabelTotalNotas;
 
-//    Empresa empTotal = new Empresa("", "Total");
-    //  MesEmpresa mesEmpresaTotal = new MesEmpresa();
-    /*  vendSelec = cmbMes.getSelectionModel().getSelectedItem();
-        if (mesSelec != null) {
+    /*
+    Empresa empTotal = new Empresa("", "Total");
+    MesEmpresa mesEmpresaTotal = new MesEmpresa();
+    vendSelec  = cmbMes.getSelectionModel().getSelectedItem();
+    if (mesSelec
+
+    
+        != null) {
             tblView.setItems(FXCollections.observableList(
-                    mesEmpresaRepository.findByAnoAndMes(mesSelec.getAno(), mesSelec.getMes(),
-                            new Sort(
-                                    new Sort.Order(Sort.Direction.DESC, "numNotas")))));
-            tblView.getSelectionModel().selectFirst();
-            
-            mesEmpresaTotal.setEmpresa(empTotal);
-            mesEmpresaTotal.setNumNotas(mesSelec.getNotas());
-            mesEmpresaTotal.setTotalNotasVal(mesSelec.getTotal());
-            mesEmpresaTotal.setTotalCredito(mesSelec.getCreditos());
-            
-            List<MesEmpresa> lstTotal = new ArrayList<>();
-            lstTotal.add(mesEmpresaTotal);
-            tblViewTotal.getItems().clear();
-            tblViewTotal.setItems(FXCollections.observableList(lstTotal));
-            tblViewTotal.getSelectionModel().selectFirst();
-            
-        }
+                mesEmpresaRepository.findByAnoAndMes(mesSelec.getAno(), mesSelec.getMes(),
+                        new Sort(
+                                new Sort.Order(Sort.Direction.DESC, "numNotas")))));
+        tblView.getSelectionModel().selectFirst();
+
+        mesEmpresaTotal.setEmpresa(empTotal);
+        mesEmpresaTotal.setNumNotas(mesSelec.getNotas());
+        mesEmpresaTotal.setTotalNotasVal(mesSelec.getTotal());
+        mesEmpresaTotal.setTotalCredito(mesSelec.getCreditos());
+
+        List<MesEmpresa> lstTotal = new ArrayList<>();
+        lstTotal.add(mesEmpresaTotal);
+        tblViewTotal.getItems().clear();
+        tblViewTotal.setItems(FXCollections.observableList(lstTotal));
+        tblViewTotal.getSelectionModel().selectFirst();
+    }
      */
+    //Mètodo que desabilita os botões de acordo com a condição atual
+    private void desabilitaBotoes() {
+        if (vendedorRepository.findAll().isEmpty()) {
+            btnDeletar.setDisable(true);
+            btnLerArquivo.setDisable(false);
+            btnGerar.setDisable(false);
+        } else {
+            btnDeletar.setDisable(false);
+            btnGerar.setDisable(true);
+        }
+    }
+
+    //Método que atualiza o número de notas do Vendedor selecionado
+    private void atualizaNumeroNotas() {
+        if (vendedorEmpresaRepository.findByVendedor(vendSelec) == null) {
+            hbLabelTotalNotas.setVisible(false);
+        } else {
+            tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findByVendedor(vendSelec)));
+            int qtdeNotas = 0;
+            for (VendedorEmpresa vE : vendedorEmpresaRepository.findByVendedor(vendSelec)) {
+                qtdeNotas += vE.getNumNotas();
+            }
+
+            hbLabelTotalNotas.setVisible(true);
+            lblTotalNotas.setText(String.valueOf(qtdeNotas));
+        }
+    }
+
+    private void atualizaVendedor() {
+        //Seleciona o vendedor selecionado no ComboBox
+        vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
+        atualizaNumeroNotas();
+    }
+
+    private void atualizaCombo() {
+        //Dispara a atualização do tableview smepre que outro objeto é selecionado no combo
+        cmbVendedor.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    atualizaVendedor();
+                }
+        );
+        //Cria a lista do ComboBox em ordem alfabética com base nos vendedores do banco
+        cmbVendedor.setItems(FXCollections.observableList(vendedorRepository.findAll(
+                new Sort(new Sort.Order(Sort.Direction.DESC, "nome")
+                ))));
+
+        cmbVendedor.getSelectionModel().selectFirst();
+    }
+
+    //Método que limpa o banco
     @FXML
     public void acDeletaAll() {
+        //Alerta de confirmação de exclusão
         Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle(i18n.getString("alertLimpaBancoTitle.text")); 
+        alert.setTitle(i18n.getString("alertLimpaBancoTitle.text"));
         alert.setHeaderText(i18n.getString("alertLimpaBancoHeader.text"));
         alert.setContentText(i18n.getString("alertLimpaBancoContent.text"));
 
@@ -132,19 +171,23 @@ public class VendedorEmpresaController implements Initializable {
             vendedorRepository.deleteAll();
             vendedorEmpresaRepository.deleteAll();
 
+            /*
             System.out.println("Collection Cidade:" + cidadeRepository.findAll());
             System.out.println("Collection DocFiscal:" + docFiscalRepository.findAll());
             System.out.println("Collection Empresa:" + empresaRepository.findAll());
             System.out.println("Collection Vendedor:" + vendedorRepository.findAll());
             System.out.println("Collection VendedorEmpresa:" + vendedorEmpresaRepository.findAll());
+             */
         }
 
+        //Atualiza a interface
         atualizaCombo();
         desabilitaBotoes();
+        //Desabilita o botão de totalizar, pois não existe nenhum vendedor para totalizar
         btnTotalizar.setDisable(true);
-
     }
 
+    //Método que popula o banco com 2 vendedores, 10 cidades, 10 empresas e 100 notas aleatórias
     @FXML
     public void acGeraRandom() {
         Vendedor vendedor = new Vendedor("Zeca Pagode");
@@ -193,33 +236,23 @@ public class VendedorEmpresaController implements Initializable {
         }
         atualizaCombo();
         desabilitaBotoes();
+        //Habilita o botão de totalizar
         btnTotalizar.setDisable(false);
     }
-    
 
-    private void desabilitaBotoes() {
-        if (cidadeRepository.findAll().isEmpty()
-                && empresaRepository.findAll().isEmpty()
-                && vendedorRepository.findAll().isEmpty()) {
-            btnDeletar.setDisable(true);
-            btnLerArquivo.setDisable(false);
-            btnGerar.setDisable(false);
-        } else {
-            btnDeletar.setDisable(false);
-            btnLerArquivo.setDisable(true);
-            btnGerar.setDisable(true);
-        }
-    }
-
+    //Método que realiza os cálculos de totalização do VendedorEmpresa
     @FXML
     public void acTotalizarVendedor() {
+        //Seleciona o vendedor do ComboBox
         vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
+        //Limpa os registros de VendedorEmpresa deste vendedor
         vendedorEmpresaRepository.deleteByVendedor(vendSelec);
 
         for (DocFiscal d : docFiscalRepository.findByVendedor(vendSelec)) {
             VendedorEmpresa vEmp = vendedorEmpresaRepository.findByVendedorAndEmpresa(vendSelec, d.getEmpresa());
             d.getEmpresa();
 
+            //Cria os registros de VendedorEmpresa com base nos Documentos Fiscais do vendedor selecionado
             if (vEmp == null) {
                 vEmp = new VendedorEmpresa(vendSelec, d.getEmpresa(), 1, d.getValorNota(), d.getValorCredito());
                 vendedorEmpresaRepository.insert(vEmp);
@@ -231,89 +264,81 @@ public class VendedorEmpresaController implements Initializable {
             }
         }
         atualizaVendedor();
-
     }
-    
-    private Dados dados;
-    
+
+    //Método que lê um arquivo e cria uma base dados com as informações contidas nele
     @FXML
     public void acLerArquivo() {
+        //Abre um FileChooser
         final Stage stage = null;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escolha o seu arquivo txt");
         fileChooser.setInitialDirectory(new File("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO"));
         fileChooser.setInitialFileName("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO\\Maria do Rosário.txt");
         String s = String.valueOf(fileChooser.showOpenDialog(stage));
-        dados = new Dados(s);
-        String nome = s.substring(s.lastIndexOf("\\") + 1,s.length());   
-        String nomeVendedor[];
-        nomeVendedor = nome.split(".txt");
-        vendObj = new Vendedor(nomeVendedor[0]);
-        if (vendedorRepository.findByNome(nomeVendedor[0]) == null){
-            dados.lerTxt(vendedorRepository.insert(vendObj));
-        }
-        desabilitaBotoes();
-        atualizaCombo();
-    }
-    /*
-    private String nomeVendedorArquivo(String linha){
-        return 
-    }*/
 
-    private void atualizaVendedor() {
-        vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
-        tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findByVendedor(vendSelec)));
-        
-         if (vendedorEmpresaRepository.findByVendedor(vendSelec) == null) {
-            hbLabelTotalNotas.setVisible(false);
-        } else {
-            int qtdeNotas = 0;
-            for (VendedorEmpresa vE : vendedorEmpresaRepository.findByVendedor(vendSelec)) {
-                qtdeNotas += vE.getNumNotas();
+        //Só cria a base de dados se um arquivo for selecionado
+        if (s.contains("\\")) {
+            dados = new Dados(s);
+            //Seleciona a última parte do caminho do arquivo, ou seja, o nome do vendedor
+            String nome = s.substring(s.lastIndexOf("\\") + 1, s.length());
+            String nomeVendedor[];
+            //Apaga o .txt do nome
+            nomeVendedor = nome.split(".txt");
+            vendObj = new Vendedor(nomeVendedor[0]);
+            //Realiza a importação dos dados caso o vendedor não esteja cadastrado
+            if (vendedorRepository.findByNome(nomeVendedor[0]) == null) {
+                dados.lerTxt(vendedorRepository.insert(vendObj));
+                //Alerta de arquivo inválido quando nenhum Documento Fiscal é criado
+                if (dados.getNumeroDocs() == 0) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle(i18n.getString("alertImportaVendedorTitle.text"));
+                    alert.setHeaderText(i18n.getString("alertImportaVendedorErroHeader.text"));
+                    alert.setContentText(i18n.getString("alertImportaVendedorErroArquivoContent.text"));
+                    alert.showAndWait();
+                    //Não cria o vendedor
+                    vendedorRepository.delete(vendObj);
+                } else {
+                    //Alerta de sucesso na importação
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle(i18n.getString("alertImportaVendedorTitle.text"));
+                    alert.setHeaderText(i18n.getString("alertImportaVendedorSucessoHeader.text"));
+                    //Caso haja algum erro na leitura, eles são exibidos no alerta
+                    alert.setContentText(i18n.getString("alertImportaVendedorSucessoContent.text") + " " + Integer.toString(dados.getErros()));
+                    alert.showAndWait();
+
+                    atualizaCombo();
+                    desabilitaBotoes();
+                    btnTotalizar.setDisable(false);
+                }
+            } else {
+                //Alerta de que o vendedor selecionado já foi cadastrado
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle(i18n.getString("alertImportaVendedorTitle.text"));
+                alert.setHeaderText(i18n.getString("alertImportaVendedorErroCadastroHeader.text"));
+                alert.setContentText(i18n.getString("alertImportaVendedorErroCadastroContent.text"));
+                alert.showAndWait();
             }
-
-            hbLabelTotalNotas.setVisible(true);
-            lblTotalNotas.setText(String.valueOf(qtdeNotas));
         }
     }
-    
+
+    //Método que exibe os documentos fiscais de um VendedorEmpresa num PopOver
     @FXML
     private void acShowDocFiscalTable() {
         String cena = "/fxml/ListaDocFiscVE.fxml";
-        //Cria o PopOver para exibir as matriculas
+        //Cria o PopOver para exibir os Documentos Fiscais
         NossoPopOver popOver = null;
-        popOver = new NossoPopOver(cena,
-                tblView.getSelectionModel().getSelectedItem().getEmpresaFantasia(), null);  
-        //É definido o controller filho (PopOver Matricula)
+        popOver = new NossoPopOver(cena, tblView.getSelectionModel().getSelectedItem().getEmpresaFantasia(), null);
         ListaDocFiscVEController controller = popOver.getLoader().getController();
-        //O controller filho recebe AlunoController como pai
-        //Assim as ações efetuadas no PopOver terão relação com o Aluno selecionado no TableView
         controller.setControllerPai(this);
-    }
-
-    private void atualizaCombo() {
-
-        //Dispara a atualização do tableview smepre que outro objeto é selecionado no combo
-        cmbVendedor.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    atualizaVendedor();
-                }
-        );
-        cmbVendedor.setItems(FXCollections.observableList(vendedorRepository.findAll(
-                new Sort(
-                        new Sort.Order(Sort.Direction.DESC, "nome"))
-        )));
-
-        cmbVendedor.getSelectionModel().selectFirst();
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Exibe o botão de exibir os documentos fiscais apenas quando a empresa é selecionado no TableView
         btnDocFiscVE.visibleProperty().bind(Bindings.isEmpty((tblView.getSelectionModel().getSelectedItems())).not());
         hbLabelTotalNotas.setVisible(false);
-        desabilitaBotoes();
         atualizaCombo();
-        // tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findAll()));
+        desabilitaBotoes();
     }
 }

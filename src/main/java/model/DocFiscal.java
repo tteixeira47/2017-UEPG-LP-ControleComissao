@@ -1,23 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import static config.Config.df;
 import static config.Config.nfc;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- *
- * @author mathe
- */
 @Document
 public class DocFiscal {
 
@@ -28,11 +18,23 @@ public class DocFiscal {
     @DBRef
     private Vendedor vendedor;
     private String nota;
+    private String situacao;
     private LocalDate emissao;
     private double valorNota;
     private double valorCredito;
 
     public DocFiscal() {
+    }
+
+    public DocFiscal(Empresa empresa, Vendedor vendedor, String nota, LocalDate emissao, double valorNota,
+            double valorCredito, String situacao) {
+        setEmpresa(empresa);
+        setVendedor(vendedor);
+        setNota(nota);
+        setEmissao(emissao);
+        setValorNota(valorNota);
+        setValorCredito(valorCredito);
+        setSituacao(situacao);
     }
 
     public DocFiscal(Empresa empresa, Vendedor vendedor, String nota, LocalDate emissao, double valorNota,
@@ -77,10 +79,19 @@ public class DocFiscal {
         this.nota = nota;
     }
 
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
     public LocalDate getEmissao() {
         return emissao;
     }
 
+    //Retorna data formatada
     public String getFormatEmissao() {
         if (emissao != null) {
             return (df.format(emissao));
@@ -97,24 +108,26 @@ public class DocFiscal {
         return valorNota;
     }
 
-    public void setValorNota(double valorNota) {
-        this.valorNota = valorNota;
-    }
-    
+    //Retorna Valor da Nota formatado
     public String getFormatValorNota() {
         return nfc.format(valorNota);
+    }
+
+    public void setValorNota(double valorNota) {
+        this.valorNota = valorNota;
     }
 
     public double getValorCredito() {
         return valorCredito;
     }
 
-    public void setValorCredito(double valorCredito) {
-        this.valorCredito = valorCredito;
-    }
-    
+    //Retorna Valor da Nota formatado
     public String getFormatValorCredito() {
         return nfc.format(valorCredito);
+    }
+
+    public void setValorCredito(double valorCredito) {
+        this.valorCredito = valorCredito;
     }
 
     @Override
@@ -144,6 +157,6 @@ public class DocFiscal {
 
     @Override
     public String toString() {
-        return empresa + "->" + nota + vendedor;
+        return empresa + " -> " + " " + nota + " " + vendedor;
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import static config.Config.nf;
@@ -14,12 +9,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- *
- * @author idomar
- */
+//Classe que relaciona um vendedor a uma empresa
 @Document
-
 @CompoundIndexes({
     @CompoundIndex(
             name = "vendedorEmpresa_idx",
@@ -48,16 +39,35 @@ public class VendedorEmpresa {
         setValorComissao(valorComissao);
     }
 
+    //Método de incrementar número de notas da relação
     public void addNumNotas() {
         this.numNotas++;
     }
 
+    //Método de incrementar valor total das notas da relação
     public void addValorTotal(Double valor) {
         this.valorTotal += valor;
     }
 
+    //Método de incrementar o valor de comissão do vendedor da relação
     public void addValorComissao(Double valor) {
         this.valorComissao += valor;
+    }
+
+    //Método que realiza o cálculo de percentual da comissão
+    public Double getPercComissao() {
+        if (valorTotal != 0) {
+            return (valorComissao / valorTotal * 100);
+
+        } else {
+            return 0.0;
+        }
+    }
+
+    //Retorna Percentual de Comissão formatado
+    public String getFormatPercComissao() {
+        return nf.format(getPercComissao()) + " %";
+
     }
 
     public String getId() {
@@ -104,6 +114,7 @@ public class VendedorEmpresa {
         return valorTotal;
     }
 
+    //Retorna Valor Total formatado
     public String getFormatValorTotal() {
         return nfc.format(valorTotal);
     }
@@ -116,26 +127,13 @@ public class VendedorEmpresa {
         return valorComissao;
     }
 
+    //Retorna Valor Comissao formatado
     public String getFormatValorComissao() {
         return nfc.format(valorComissao);
     }
 
     public void setValorComissao(Double valorComissao) {
         this.valorComissao = valorComissao;
-    }
-
-    public Double getPercComissao() {
-        if (valorTotal != 0) {
-            return (valorComissao / valorTotal * 100);
-
-        } else {
-            return 0.0;
-        }
-    }
-
-    public String getFormatPercComissao() {
-        return nf.format(getPercComissao()) + " %";
-
     }
 
     @Override

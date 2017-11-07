@@ -5,7 +5,6 @@
  */
 package config;
 
-import model.VendedorEmpresa;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import repository.VendedorRepository;
 import repository.DocFiscalRepository;
@@ -13,16 +12,14 @@ import repository.EmpresaRepository;
 import repository.CidadeRepository;
 import repository.VendedorEmpresaRepository;
 
-/**
- *
- * @author mathe
- */
+//Define as relações entre os repositórios e o banco
 public class DAO {
+
     private static final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(DBConfig.class);
     public static VendedorRepository vendedorRepository = ctx.getBean(VendedorRepository.class);
     public static DocFiscalRepository docFiscalRepository = ctx.getBean(DocFiscalRepository.class);
     public static EmpresaRepository empresaRepository = ctx.getBean(EmpresaRepository.class);
     public static CidadeRepository cidadeRepository = ctx.getBean(CidadeRepository.class);
     public static VendedorEmpresaRepository vendedorEmpresaRepository = ctx.getBean(VendedorEmpresaRepository.class);
-    
+
 }
