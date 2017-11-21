@@ -26,5 +26,8 @@ public class Config {
     //Define o formatador de número
     public static final NumberFormat nf
             = NumberFormat.getNumberInstance();
+    
+    //Variável de Update
+    public static final char ALTERAR = 'A';
 
 }

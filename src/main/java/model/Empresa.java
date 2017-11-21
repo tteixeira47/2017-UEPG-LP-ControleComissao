@@ -62,7 +62,7 @@ public class Empresa {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
     }
 
     public String getFantasia() {
@@ -70,7 +70,7 @@ public class Empresa {
     }
 
     public void setFantasia(String fantasia) {
-        this.fantasia = fantasia;
+        this.fantasia = fantasia.toUpperCase();
     }
 
     public Cidade getCidade() {

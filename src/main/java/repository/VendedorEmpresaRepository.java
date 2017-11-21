@@ -13,5 +13,7 @@ public interface VendedorEmpresaRepository extends MongoRepository<VendedorEmpre
     public VendedorEmpresa findByVendedorAndEmpresa(Vendedor vendedor, Empresa empresa);
 
     public void deleteByVendedor(Vendedor vendedor);
+    
+    public List<VendedorEmpresa> findByVendedorAndValorComissaoGreaterThan(Vendedor vendedor, double valorComissao);
 
 }

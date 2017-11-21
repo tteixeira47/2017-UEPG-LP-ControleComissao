@@ -2,6 +2,7 @@ package view;
 
 import static config.Config.df;
 import static config.Config.i18n;
+import static config.Config.nf;
 import static config.DAO.cidadeRepository;
 import static config.DAO.docFiscalRepository;
 import static config.DAO.empresaRepository;
@@ -10,6 +11,7 @@ import static config.DAO.vendedorRepository;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.File;
 import java.net.URL;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import model.Cidade;
@@ -74,6 +79,10 @@ public class VendedorEmpresaController implements Initializable {
     @FXML
     private HBox hbLabelTotalNotas;
 
+    @FXML
+    private TextField txtFldFiltro;
+
+
     /*
     Empresa empTotal = new Empresa("", "Total");
     MesEmpresa mesEmpresaTotal = new MesEmpresa();
@@ -100,6 +109,15 @@ public class VendedorEmpresaController implements Initializable {
         tblViewTotal.getSelectionModel().selectFirst();
     }
      */
+    @FXML
+    private void onKeyPressFiltrar(KeyEvent evt) throws ParseException {
+        vendSelec = cmbVendedor.getSelectionModel().getSelectedItem();
+        
+        if (evt.getCode() == KeyCode.ENTER) {
+            tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findByVendedorAndValorComissaoGreaterThan(vendSelec, nf.parse(txtFldFiltro.getText()).doubleValue())));
+        }
+    }
+
     //Mètodo que desabilita os botões de acordo com a condição atual
     private void desabilitaBotoes() {
         if (vendedorRepository.findAll().isEmpty()) {
@@ -189,6 +207,13 @@ public class VendedorEmpresaController implements Initializable {
 
     //Método que popula o banco com 2 vendedores, 10 cidades, 10 empresas e 100 notas aleatórias
     @FXML
+    public void acLimpaFiltro() {
+        txtFldFiltro.clear();
+        tblView.setItems(FXCollections.observableList(vendedorEmpresaRepository.findAll()));
+        txtFldFiltro.requestFocus();
+    }
+    
+    @FXML
     public void acGeraRandom() {
         Vendedor vendedor = new Vendedor("Zeca Pagode");
         vendedorRepository.insert(vendedor);
@@ -273,8 +298,8 @@ public class VendedorEmpresaController implements Initializable {
         final Stage stage = null;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escolha o seu arquivo txt");
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO"));
-        fileChooser.setInitialFileName("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO\\Maria do Rosário.txt");
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO\\Vendedores"));
+        fileChooser.setInitialFileName("C:\\Users\\Thiago.TEIXEIRA\\Documents\\UEPG\\2o ANO\\LINGUAGENS PROGRAMAÇÃO\\Vendedores\\Maria do Rosário.txt");
         String s = String.valueOf(fileChooser.showOpenDialog(stage));
 
         //Só cria a base de dados se um arquivo for selecionado

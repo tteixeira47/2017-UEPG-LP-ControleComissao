@@ -26,6 +26,8 @@
                         <MaterialDesignIconView fx:id="btnDeletar" glyphName="DATABASE_MINUS" onMouseClicked="#acDeletaAll" size="2.3em" style="-fx-cursor: HAND;" />
                         <MaterialDesignIconView fx:id="btnGerar" glyphName="DATABASE_PLUS" onMouseClicked="#acGeraRandom" size="2.3em" style="-fx-cursor: HAND;" />
                         <MaterialDesignIconView fx:id="btnDocFiscVE" glyphName="FILE_FIND" onMouseClicked="#acShowDocFiscalTable" size="2.3em" style="-fx-cursor: HAND;" />
+                        <TextField fx:id="txtFldFiltro" onKeyPressed="#onKeyPressFiltrar" promptText="Filtro Valor Comissão" />
+                        <MaterialDesignIconView fx:id="btnLimparFiltro" glyphName="ARROW_LEFT" onMouseClicked="#acLimpaFiltro" size="2.3em" style="-fx-cursor: HAND;" />
                         <HBox fx:id="hbLabelTotalNotas" alignment="CENTER" spacing="2.0">
                             <children>
                                 <Label text="%lblTotalNotas.text">
@@ -73,9 +75,9 @@
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                     </VBox.margin>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
                 </TableView>
 
             </children>
