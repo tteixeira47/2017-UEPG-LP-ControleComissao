@@ -28,6 +28,11 @@
                     <fx:include source="Empresa.fxml" />
                   </content>
                 </Tab>
+                <Tab text="Cidades">
+                  <content>
+                    <fx:include source="Cidade.fxml" />
+                  </content>
+                </Tab>
               </tabs>
             </TabPane>
          </children>

@@ -18,10 +18,10 @@ public class DocFiscal {
     @DBRef
     private Vendedor vendedor;
     private String nota;
-    private String situacao;
     private LocalDate emissao;
     private double valorNota;
     private double valorCredito;
+    private String situacao;
 
     public DocFiscal() {
     }

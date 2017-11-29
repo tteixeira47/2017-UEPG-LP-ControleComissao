@@ -33,7 +33,7 @@ public class EmpresaController implements Initializable {
     @FXML
     private void onKeyPressFiltrarEmpresa(KeyEvent evt) {
         if (evt.getCode() == KeyCode.ENTER) {
-            tblView.setItems(FXCollections.observableList(empresaRepository.findByNomeLikeIgnoreCaseOrFantasiaIgnoreCase(txtFldFiltroEmpresa.getText(), txtFldFiltroEmpresa.getText())));
+            tblView.setItems(FXCollections.observableList(empresaRepository.findByNomeLikeIgnoreCaseOrFantasiaLikeIgnoreCase(txtFldFiltroEmpresa.getText(), txtFldFiltroEmpresa.getText())));
         }
     }
     

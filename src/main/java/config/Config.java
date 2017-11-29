@@ -27,7 +27,14 @@ public class Config {
     public static final NumberFormat nf
             = NumberFormat.getNumberInstance();
     
-    //Variável de Update
+    //Constante de Update
     public static final char ALTERAR = 'A';
+    
+    //Constante de Create
+    public static final char INCLUIR = 'I';
+    
+    //Constante de Delete
+    public static final char DELETAR = 'D';
+
 
 }

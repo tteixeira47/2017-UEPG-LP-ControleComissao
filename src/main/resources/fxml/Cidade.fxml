@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="660.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CidadeController">
+    <stylesheets>
+        <URL value="@/styles/Styles.css" />
+    </stylesheets>
+    <children>
+        <VBox layoutX="60.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                   <children>
+                       <MaterialDesignIconView fx:id="btnIncluir" glyphName="LIBRARY_PLUS" onMouseClicked="#acIncluir" size="2.3em" style="-fx-cursor: HAND;" />
+                       <MaterialDesignIconView fx:id="btnAlterar" glyphName="AUTORENEW" onMouseClicked="#acAlterar" size="2.3em" style="-fx-cursor: HAND;" />
+                       <MaterialDesignIconView fx:id="btnDeletar" glyphName="DELETE" onMouseClicked="#acDeletar" size="2.3em" style="-fx-cursor: HAND;" />
+                   </children>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                    </VBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox>
+                <TableView fx:id="tblView" prefHeight="368.0" prefWidth="675.0">
+                    <columns>
+                        <TableColumn fx:id="colCidade" maxWidth="-1.0" minWidth="130.0" prefWidth="-1.0" style="-fx-alignment: CENTER-RIGHT;" text="Cidades">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="nome" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                    </VBox.margin>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>
