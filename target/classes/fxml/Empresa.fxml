@@ -19,9 +19,14 @@
         <VBox layoutX="60.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="5.0">
-                    <TextField fx:id="txtFldFiltroEmpresa" onKeyPressed="#onKeyPressFiltrarEmpresa" promptText="Filtro Empresa" />
-                    <MaterialDesignIconView fx:id="btnLimparFiltroEmpresa" glyphName="ARROW_LEFT" onMouseClicked="#acLimpaFiltroEmpresa" size="2.3em" style="-fx-cursor: HAND;" />
-                    <MaterialDesignIconView fx:id="btnAlterar" glyphName="AUTORENEW" onMouseClicked="#acAlterar" size="2.3em" style="-fx-cursor: HAND;" />
+                   <children>
+                  <Label fx:id="lblRandNum" text="Numero" />
+                       <TextField fx:id="txtFldFiltroEmpresa" onKeyPressed="#onKeyPressFiltrarEmpresa" promptText="Filtro Empresa" />
+                       <MaterialDesignIconView fx:id="btnLimparFiltroEmpresa" glyphName="ARROW_LEFT" onMouseClicked="#acLimpaFiltroEmpresa" size="2.3em" style="-fx-cursor: HAND;" />
+                       <MaterialDesignIconView fx:id="btnInfoCidade" glyphName="AT" onMouseClicked="#acInfoCidade" size="2.3em" style="-fx-cursor: HAND;" />
+                       <MaterialDesignIconView fx:id="btnFiltroCnpj" glyphName="FILTER_VARIANT" onMouseClicked="#acFiltroCnpj" size="2.3em" style="-fx-cursor: HAND;" />
+                       <MaterialDesignIconView fx:id="btnAlterar" glyphName="AUTORENEW" onMouseClicked="#acAlterar" size="2.3em" style="-fx-cursor: HAND;" />
+                   </children>
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                     </VBox.margin>

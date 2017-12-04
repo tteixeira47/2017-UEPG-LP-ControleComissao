@@ -55,9 +55,17 @@ public class CidadeController implements Initializable {
         cidade = tblView.getSelectionModel().getSelectedItem();
         if (!cidade.equals(null)){
             showCRUD();
-        }
-        
+        }        
     }
+    
+    @FXML
+    public void acLimparCidade() {
+        tblView.refresh();
+        tblView.setItems(FXCollections.observableList(cidadeRepository.findAll()));
+        tblView.requestFocus();
+    }
+    
+    
 
     @FXML
     private void acIncluir() {

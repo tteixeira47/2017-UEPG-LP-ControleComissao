@@ -20,6 +20,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                    <children>
+                       <MaterialDesignIconView fx:id="btnLimparCidade" glyphName="ARROW_LEFT" onMouseClicked="#acLimparCidade" size="2.3em" style="-fx-cursor: HAND;" />
                        <MaterialDesignIconView fx:id="btnIncluir" glyphName="LIBRARY_PLUS" onMouseClicked="#acIncluir" size="2.3em" style="-fx-cursor: HAND;" />
                        <MaterialDesignIconView fx:id="btnAlterar" glyphName="AUTORENEW" onMouseClicked="#acAlterar" size="2.3em" style="-fx-cursor: HAND;" />
                        <MaterialDesignIconView fx:id="btnDeletar" glyphName="DELETE" onMouseClicked="#acDeletar" size="2.3em" style="-fx-cursor: HAND;" />

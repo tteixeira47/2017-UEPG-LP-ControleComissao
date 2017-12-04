@@ -1,5 +1,6 @@
 package model;
 
+import static config.Config.nf;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -12,6 +13,19 @@ public class Vendedor {
     private String id;
     @Indexed(unique = true)
     private String nome;
+    private Double percentualBonus = 0.15;
+
+    public Double getPercentualBonus() {
+        return percentualBonus;
+    }
+
+    public void setPercentualBonus(Double percentualBonus) {
+        this.percentualBonus = percentualBonus;
+    }
+    
+    public String getFormatPercentualBonus() {
+        return nf.format(getPercentualBonus()) + " %";
+    }
 
     public Vendedor() {
     }

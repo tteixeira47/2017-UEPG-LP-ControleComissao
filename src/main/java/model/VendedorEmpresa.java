@@ -27,7 +27,7 @@ public class VendedorEmpresa {
     private Integer numNotas;
     private Double valorTotal;
     private Double valorComissao;
-
+    
     public VendedorEmpresa() {
     }
 
@@ -38,6 +38,27 @@ public class VendedorEmpresa {
         setValorTotal(valorTotal);
         setValorComissao(valorComissao);
     }
+    
+    public double getBonus(){
+        if (vendedor.getPercentualBonus() != 0) {
+            return (valorComissao * vendedor.getPercentualBonus());
+        } else {
+            return 0.0;
+        }
+    }
+    
+    public String getFormatBonus() {
+        return nfc.format(getBonus());
+    }
+    
+    public Double getMediaValorTotal(){
+        return (getValorTotal() / getNumNotas());
+    }
+    
+    public String getFormatMediaValorTotal() {
+        return nfc.format(getMediaValorTotal());
+    }
+   
 
     //Método de incrementar número de notas da relação
     public void addNumNotas() {

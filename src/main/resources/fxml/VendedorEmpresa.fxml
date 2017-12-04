@@ -61,6 +61,11 @@
                                 <PropertyValueFactory property="formatValorTotal" />
                             </cellValueFactory>
                         </TableColumn>
+                        <TableColumn fx:id="colMediaValor" maxWidth="-1.0" minWidth="130.0" prefWidth="-1.0" style="-fx-alignment: CENTER-RIGHT;" text="Media">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="formatMediaValorTotal" />
+                            </cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="colValorComissao" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" style="-fx-alignment: CENTER-RIGHT;" text="%TotComissaoTbVwColnome.text">
                             <cellValueFactory>
                                 <PropertyValueFactory property="formatValorComissao" />
@@ -69,6 +74,11 @@
                         <TableColumn fx:id="colPercComissao" maxWidth="-1.0" minWidth="130.0" prefWidth="-1.0" style="-fx-alignment: CENTER-RIGHT;" text="%PercComissaoTbVwColnome.text">
                             <cellValueFactory>
                                 <PropertyValueFactory property="formatPercComissao" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colPercBonus" maxWidth="-1.0" minWidth="130.0" prefWidth="-1.0" style="-fx-alignment: CENTER-RIGHT;" text="Bonus">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="formatBonus" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
